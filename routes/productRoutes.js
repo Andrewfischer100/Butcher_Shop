@@ -1,10 +1,11 @@
 const express = require('express');
 const Product = require('../models/Product');
+const { auth, isAdmin } = require('./authRoutes.js');
 
 const router = express.Router();
 
 // Create a new product
-router.post('/', async (req, res) => {
+router.post('/', auth, isAdmin, async (req, res) => {
     const product = new Product(req.body);
     try {
         const savedProduct = await product.save();
@@ -36,7 +37,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a product
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, isAdmin, async (req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
@@ -47,7 +48,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a product
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, isAdmin, async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
         if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
