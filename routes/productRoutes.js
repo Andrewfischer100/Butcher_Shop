@@ -4,6 +4,9 @@ const { auth, isAdmin } = require('./authRoutes.js');
 
 const router = express.Router();
 
+
+
+
 // Create a new product
 router.post('/', auth, isAdmin, async (req, res) => {
     const product = new Product(req.body);
