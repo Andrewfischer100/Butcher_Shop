@@ -17,16 +17,17 @@ const Login = () => {
             
             // Log the full response data to inspect it
             console.log('Login Response Data:', response.data);
-            console.log("User role:", response.data.role);
-
-            // Check if token exists in the response (token might be under different keys like accessToken)
-            const token = response.data.token || response.data.accessToken;
-            const role = response.data.role; // Assuming the role is included in the response
-
+    
+            // Ensure you are accessing the role correctly
+            const token = response.data.token || response.data.accessToken; 
+            const role = response.data.user?.role; // Use optional chaining to avoid errors if user is undefined
+    
             if (token) {
+                // Store token and role in localStorage
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role); // Store the user role
                 console.log('Token saved in localStorage:', localStorage.getItem('token'));
+                console.log('User role saved in localStorage:', localStorage.getItem('role'));
             } else {
                 console.error('Token not found in the response');
             }
@@ -41,15 +42,9 @@ const Login = () => {
         }
     };
     
+        
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
-            <input type="email" name="email" placeholder="Email" value={credentials.email} onChange={handleChange} required />
-            <input type="password" name="password" placeholder="Password" value={credentials.password} onChange={handleChange} required />
-            <button type="submit">Login</button>
-        </form>
-    );
+  
 };
 
 export default Login;

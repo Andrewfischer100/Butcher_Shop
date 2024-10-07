@@ -52,6 +52,7 @@ router.post(
 );
 
 // Login user
+// Login user
 router.post(
     '/login',
     [
@@ -71,6 +72,9 @@ router.post(
             if (!user) {
                 return res.status(400).json({ message: 'Invalid credentials' });
             }
+
+            // Log user details to see if role is present
+            console.log('Fetched User:', user);
 
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {

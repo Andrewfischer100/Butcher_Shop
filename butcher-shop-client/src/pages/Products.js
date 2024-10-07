@@ -1,7 +1,7 @@
 import React from 'react';
-import deleteProduct from '../App'
 
-const Products = ({ products, addProduct, handleChange, newProduct }) => {
+
+const Products = ({ products, addProduct, handleChange, newProduct, deleteProduct }) => {
     return (
         <div>
             <h1>Products</h1>
@@ -10,14 +10,19 @@ const Products = ({ products, addProduct, handleChange, newProduct }) => {
             ) : (
                 <ul>
                     {products.map((product) => (
-                        <li key={product.id}> {/* Assuming product has an id field */}
+                        <li key={product._id}> {/* Assuming product has an id field */}
                             <h2>{product.name}</h2>
                             {product.name} - {product.price} - {product.description}
                             <p>{product.description}</p>
                             <p>Price: ${product.price}</p>
                             <p>Quantity: {product.quantity}</p>
                              {/* Add a delete button */}
-                    <button onClick={() => deleteProduct(product.id)}>Delete</button>
+                             <button onClick={() => {
+                                console.log(`Deleting product with ID: ${product.id}`);
+                                deleteProduct(product._id);}}>
+                                Delete 
+                                </button>
+
                         </li>
                     ))}
                 </ul>

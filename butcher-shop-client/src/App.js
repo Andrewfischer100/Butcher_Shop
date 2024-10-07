@@ -1,12 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
+import GlobalStyle from './components/GlobalStyle';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import About from './pages/About';
 import Products from './pages/Products'; // Assuming you’ll create this later
+import Profile from './pages/Profile';
 import Admin from './pages/Admin';
+import styled from 'styled-components';
+
+const MainContainer = styled.main`
+    padding: 20px;
+    background-color: #f4f4f4; // Light background
+    min-height: calc(100vh - 60px); // Adjust based on your header height
+`;
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -22,6 +31,7 @@ function App() {
     const fetchProducts = async () => {
         const response = await axios.get('http://localhost:5000/api/products');
         setProducts(response.data);
+        console.log('Fetched products:', response.data); 
     };
 
     useEffect(() => {
@@ -91,21 +101,28 @@ function App() {
     
 
     // Function to check user role
-    const isAdmin = () => {
-        const role = localStorage.getItem('role');
-        return role === 'admin'; // Adjust the condition based on your role naming
-    };
+  // Function to check user role
+const isAdmin = () => {
+    const role = localStorage.getItem('role');
+    console.log('User role:', role); // Debug log to see what role is being retrieved
+    return role === 'admin'; // Adjust the condition based on your role naming
+};
+
 
     return (
+        <MainContainer>
+             <GlobalStyle />
         <Router>
             <Header username={username} /> {/* Pass username to Header */}
             <Routes>
                 <Route path="/" element={<Home setUsername={setUsername} />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/products" element={<Products products={products} addProduct={addProduct} handleChange={handleChange} newProduct={newProduct} deleteProduct={deleteProduct} />} />
                 <Route path="/admin" element={isAdmin() ? <Admin products={products} addProduct={addProduct} handleChange={handleChange} newProduct={newProduct} deleteProduct={deleteProduct} /> : <Navigate to="/products" />} />
             </Routes>
         </Router>
+        </MainContainer>
     );
 }
 

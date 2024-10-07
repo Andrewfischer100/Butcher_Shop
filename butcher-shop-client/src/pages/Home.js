@@ -51,7 +51,7 @@ function Home({ setUsername }) {
 
     return (
         <div>
-            <h1>Welcome to the Butcher Shop</h1>
+            <h1>Welcome to Ryan's Butcher Shop Application</h1>
             <button onClick={() => setFormType('login')}>Login</button>
             <button onClick={() => setFormType('register')}>Register</button>
 
